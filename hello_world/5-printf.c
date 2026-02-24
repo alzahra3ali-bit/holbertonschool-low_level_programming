@@ -1,7 +1,9 @@
 #include <stdio.h>
+
 /**
- * main-printf statment
- * return : Always 0 
+ * main - Prints a specific sentence using printf
+ *
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
