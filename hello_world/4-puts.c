@@ -1,6 +1,8 @@
 #include <stdio.h>
-/*
- *my ferst C programe
+/**
+ * main - Prints a specific message using puts
+ *
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
