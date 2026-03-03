@@ -1,24 +1,25 @@
 #include "main.h"
 
+/**
+ * print_rev - prints a string in reverse
+ * @s: string to be printed
+ *
+ * Return: nothing
+ */
 void print_rev(char *s)
 {
-    int len = 0;
+	int len = 0;
+	int i;
 
-    /* احسب طول النص */
-    while (s[len] != '\0')
-    {
-        len++;
-    }
+	while (s[len] != '\0')
+	{
+		len++;
+	}
 
-    /* آخر حرف هو len - 1 */
-    len--;
+	for (i = len - 1; i >= 0; i--)
+	{
+		_putchar(s[i]);
+	}
 
-    /* اطبع بالعكس */
-    while (len >= 0)
-    {
-        _putchar(s[len]);
-        len--;
-    }
-
-    _putchar('\n');
+	_putchar('\n');
 }
