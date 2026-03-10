@@ -1,9 +1,12 @@
 #include "main.h"
+
 /**
- * the value i is like a counter 
- * a for loop that implement a n time 
- * inside the loop there is array that all its element is (b)
- * the  return statment return the array with the new values
+ * _memset - fills memory with a constant byte
+ * @s: memory area to be filled
+ * @b: the desired value
+ * @n: number of bytes to be changed
+ *
+ * Return: pointer to the memory area s
  */
 char *_memset(char *s, char b, unsigned int n)
 {
