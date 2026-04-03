@@ -10,11 +10,11 @@
  */
 void *malloc_checked(unsigned int b)
 {
-    void *ptr;
+	void *ptr;
 
-    ptr = malloc(b); 
-    if (ptr == NULL) 
-        exit(98);   
+	ptr = malloc(b); /* حاول حجز الذاكرة */
+	if (ptr == NULL) /* لو malloc فشل */
+		exit(98);    /* نوقف البرنامج مع الحالة 98 */
 
-    return ptr;      
+	return (ptr);    /* رجع المؤشر للذاكرة */
 }
