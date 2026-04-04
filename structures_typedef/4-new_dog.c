@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "dog.h"
 
 /**
@@ -8,39 +6,41 @@
  * @name: name of the dog
  * @age: age of the dog
  * @owner: owner of the dog
- *
+ * 
  * Return: pointer to new dog, or NULL if it fails
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
     dog_t *d;
-    
+    int i;
+
     if (!name || !owner)
         return NULL;
 
-    /* Allocate memory for struct dog */
     d = malloc(sizeof(dog_t));
-    if (d == NULL)
+    if (!d)
         return NULL;
 
-    /* Allocate memory and copy name */
     d->name = malloc(strlen(name) + 1);
-    if (d->name == NULL)
+    if (!d->name)
     {
         free(d);
         return NULL;
     }
-    strcpy(d->name, name);
+    for (i = 0; name[i]; i++)
+        d->name[i] = name[i];
+    d->name[i] = '\0';
 
-    /* Allocate memory and copy owner */
     d->owner = malloc(strlen(owner) + 1);
-    if (d->owner == NULL)
+    if (!d->owner)
     {
         free(d->name);
         free(d);
         return NULL;
     }
-    strcpy(d->owner, owner);
+    for (i = 0; owner[i]; i++)
+        d->owner[i] = owner[i];
+    d->owner[i] = '\0';
 
     d->age = age;
 
