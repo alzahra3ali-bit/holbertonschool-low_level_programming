@@ -3,46 +3,80 @@
 #include <stdarg.h>
 
 /**
- * print_all - prints anything
- * @format: list of argument types
+ * print_c - prints char
  */
+void print_c(va_list args, char *sep)
+{
+	printf("%s%c", sep, va_arg(args, int));
+}
 
+/**
+ * print_i - prints integer
+ */
+void print_i(va_list args, char *sep)
+{
+	printf("%s%d", sep, va_arg(args, int));
+}
+
+/**
+ * print_f - prints float
+ */
+void print_f(va_list args, char *sep)
+{
+	printf("%s%f", sep, va_arg(args, double));
+}
+
+/**
+ * print_s - prints string
+ */
+void print_s(va_list args, char *sep)
+{
+	char *s = va_arg(args, char *);
+
+	if (!s)
+		s = "(nil)";
+
+	printf("%s%s", sep, s);
+}
+
+/**
+ * print_all - prints anything
+ */
 void print_all(const char * const format, ...)
 {
 	va_list args;
 	int i = 0;
+	int j;
 	char *sep = "";
-	char *s;
+
+	struct printer
+	{
+		char type;
+		void (*func)(va_list, char *);
+	};
+
+	struct printer p[] = {
+		{'c', print_c},
+		{'i', print_i},
+		{'f', print_f},
+		{'s', print_s}
+	};
 
 	va_start(args, format);
 
 	while (format && format[i])
 	{
-		if (format[i] == 'c')
-		{
-			printf("%s%c", sep, va_arg(args, int));
-			sep = ", ";
-		}
+		j = 0;
 
-		if (format[i] == 'i')
+		while (j < 4)
 		{
-			printf("%s%d", sep, va_arg(args, int));
-			sep = ", ";
-		}
+			if (format[i] == p[j].type)
+			{
+				p[j].func(args, sep);
+				sep = ", ";
+			}
 
-		if (format[i] == 'f')
-		{
-			printf("%s%f", sep, va_arg(args, double));
-			sep = ", ";
-		}
-
-		if (format[i] == 's')
-		{
-			s = va_arg(args, char *);
-			if (!s)
-				s = "(nil)";
-			printf("%s%s", sep, s);
-			sep = ", ";
+			j++;
 		}
 
 		i++;
