@@ -3,12 +3,25 @@
 #include <stdarg.h>
 
 /**
+ * struct printer - matches format with function
+ * @type: format specifier
+ * @func: function pointer
+ */
+typedef struct printer
+{
+	char type;
+	void (*func)(va_list, char *);
+} printer_t;
+
+
+/**
  * print_c - prints char
  */
 void print_c(va_list args, char *sep)
 {
 	printf("%s%c", sep, va_arg(args, int));
 }
+
 
 /**
  * print_i - prints integer
@@ -18,6 +31,7 @@ void print_i(va_list args, char *sep)
 	printf("%s%d", sep, va_arg(args, int));
 }
 
+
 /**
  * print_f - prints float
  */
@@ -25,6 +39,7 @@ void print_f(va_list args, char *sep)
 {
 	printf("%s%f", sep, va_arg(args, double));
 }
+
 
 /**
  * print_s - prints string
@@ -39,6 +54,7 @@ void print_s(va_list args, char *sep)
 	printf("%s%s", sep, s);
 }
 
+
 /**
  * print_all - prints anything
  */
@@ -49,13 +65,7 @@ void print_all(const char * const format, ...)
 	int j;
 	char *sep = "";
 
-	struct printer
-	{
-		char type;
-		void (*func)(va_list, char *);
-	};
-
-	struct printer p[] = {
+	printer_t p[] = {
 		{'c', print_c},
 		{'i', print_i},
 		{'f', print_f},
