@@ -13,6 +13,6 @@ while(head != NULL)
 {
 temp = head->next;
 free(head);
-temp = head;
+head = temp;
 }
 }
