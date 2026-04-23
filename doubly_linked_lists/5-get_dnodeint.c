@@ -4,6 +4,8 @@
 /**
  *get_dnodeint_at_index - return the nth node
  * @index: it is the index for the node we want to get
+ * @head: the first node
+ * Return: the nth node
  */
 dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
 {
