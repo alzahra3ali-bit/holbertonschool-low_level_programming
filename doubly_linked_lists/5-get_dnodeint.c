@@ -11,7 +11,7 @@ dlistint_t *temp = head;
 unsigned int i = 0;
 while (temp != NULL)
 {
-if (i == index )
+if (i == index)
 {
 return (temp);
 }
