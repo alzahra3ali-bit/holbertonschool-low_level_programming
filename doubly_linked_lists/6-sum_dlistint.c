@@ -2,8 +2,7 @@
 
 /**
  * sum_dlistint - Calculate the sum of data in each node
- * @head: pointer to head of list 
- *
+ * @head: pointer to head of list
  * Return: the sum of data
  */
 int sum_dlistint(dlistint_t *head)
