@@ -1,5 +1,4 @@
 #include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -9,12 +8,12 @@
  * @filename: name of the file
  * @letters: number of letters to read and print
  *
- * Return: number of letters actually printed, or 0 on failure
+ * Return: number of letters printed, or 0 on failure
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
     int fd;
-    ssize_t r_bytes, w_bytes, total_written;
+    ssize_t r_bytes, w_bytes;
     char *buffer;
 
     if (filename == NULL)
@@ -39,8 +38,8 @@ ssize_t read_textfile(const char *filename, size_t letters)
         return (0);
     }
 
-    total_written = write(STDOUT_FILENO, buffer, r_bytes);
-    if (total_written == -1 || total_written != r_bytes)
+    w_bytes = write(STDOUT_FILENO, buffer, r_bytes);
+    if (w_bytes == -1 || w_bytes != r_bytes)
     {
         free(buffer);
         close(fd);
@@ -50,5 +49,5 @@ ssize_t read_textfile(const char *filename, size_t letters)
     free(buffer);
     close(fd);
 
-    return (total_written);
+    return (r_bytes);
 }
