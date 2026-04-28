@@ -24,6 +24,8 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 
 	index = key_index((const unsigned char *)key, ht->size);
 	temp = ht->array[index];
+
+	/* التحقق من وجود المفتاح لتحديثه */
 	while (temp)
 	{
 		if (strcmp(temp->key, key) == 0)
@@ -35,6 +37,7 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 		temp = temp->next;
 	}
 
+	/* إضافة نود جديدة إذا لم يكن المفتاح موجوداً */
 	new_node = malloc(sizeof(hash_node_t));
 	if (new_node == NULL)
 	{
@@ -50,5 +53,6 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 	new_node->value = value_copy;
 	new_node->next = ht->array[index];
 	ht->array[index] = new_node;
+
 	return (1);
 }
