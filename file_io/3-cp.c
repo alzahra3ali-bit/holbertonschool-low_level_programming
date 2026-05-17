@@ -6,89 +6,39 @@
 
 #define BUFFER_SIZE 1024
 
-/**
- * close_file - closes a file descriptor
- * @fd: file descriptor
- */
-
-void close_file(int fd)
-{
-	int c;
-
-	c = close(fd);
-
-	if (c == -1)
-	{
-		dprintf(STDERR_FILENO,
-			"Error: Can't close fd %d\n", fd);
-		exit(100);
-	}
-}
+void close_fd(int fd);
+void print_usage(void);
+void read_error(char *file);
+void write_error(char *file);
+void copy_file(int fd_from, int fd_to, char *file_from, char *file_to);
 
 /**
- * main - copies the content of a file to another file
- * @argc: number of arguments
- * @argv: array of arguments
+ * main - entry point
+ * @argc: arguments count
+ * @argv: arguments vector
  *
  * Return: 0 on success
  */
 
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to, rd, wr;
-	char buffer[BUFFER_SIZE];
+	int fd_from, fd_to;
 
 	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO,
-			"Usage: cp file_from file_to\n");
-		exit(97);
-	}
+		print_usage();
 
 	fd_from = open(argv[1], O_RDONLY);
-
 	if (fd_from == -1)
-	{
-		dprintf(STDERR_FILENO,
-			"Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
+		read_error(argv[1]);
 
-	fd_to = open(argv[2],
-			O_CREAT | O_WRONLY | O_TRUNC, 0664);
-
+	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd_to == -1)
-	{
-		dprintf(STDERR_FILENO,
-			"Error: Can't write to %s\n", argv[2]);
-		exit(99);
-	}
+		write_error(argv[2]);
 
-	rd = read(fd_from, buffer, BUFFER_SIZE);
+	copy_file(fd_from, fd_to, argv[1], argv[2]);
 
-	while (rd > 0)
-	{
-		wr = write(fd_to, buffer, rd);
-
-		if (wr == -1)
-		{
-			dprintf(STDERR_FILENO,
-				"Error: Can't write to %s\n", argv[2]);
-			exit(99);
-		}
-
-		rd = read(fd_from, buffer, BUFFER_SIZE);
-	}
-
-	if (rd == -1)
-	{
-		dprintf(STDERR_FILENO,
-			"Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-
-	close_file(fd_from);
-	close_file(fd_to);
+	close_fd(fd_from);
+	close_fd(fd_to);
 
 	return (0);
 }
