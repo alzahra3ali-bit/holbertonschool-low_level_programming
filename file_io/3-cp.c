@@ -7,6 +7,25 @@
 #define BUFFER_SIZE 1024
 
 /**
+ * close_file - closes a file descriptor
+ * @fd: file descriptor
+ */
+
+void close_file(int fd)
+{
+	int c;
+
+	c = close(fd);
+
+	if (c == -1)
+	{
+		dprintf(STDERR_FILENO,
+			"Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
  * main - copies the content of a file to another file
  * @argc: number of arguments
  * @argv: array of arguments
@@ -16,7 +35,7 @@
 
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to, rd, wr, close_from, close_to;
+	int fd_from, fd_to, rd, wr;
 	char buffer[BUFFER_SIZE];
 
 	if (argc != 3)
@@ -36,8 +55,7 @@ int main(int argc, char *argv[])
 	}
 
 	fd_to = open(argv[2],
-			O_CREAT | O_WRONLY | O_TRUNC,
-			0664);
+			O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
 	if (fd_to == -1)
 	{
@@ -69,23 +87,8 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	close_from = close(fd_from);
-
-	if (close_from == -1)
-	{
-		dprintf(STDERR_FILENO,
-			"Error: Can't close fd %d\n", fd_from);
-		exit(100);
-	}
-
-	close_to = close(fd_to);
-
-	if (close_to == -1)
-	{
-		dprintf(STDERR_FILENO,
-			"Error: Can't close fd %d\n", fd_to);
-		exit(100);
-	}
+	close_file(fd_from);
+	close_file(fd_to);
 
 	return (0);
 }
